@@ -18,6 +18,38 @@ public class Message {
     private String messageText;
     private String messageID;
     private String messageHash;
+
+    public int getMessageNumber() {
+        return messageNumber;
+    }
+
+    public String getRecipient() {
+        return recipient;
+    }
+
+    public String getMessageText() {
+        return messageText;
+    }
+
+    public String getMessageID() {
+        return messageID;
+    }
+
+    public String getMessageHash() {
+        return messageHash;
+    }
+
+    public String getSendMessage() {
+        return sendMessage;
+    }
+
+    public static int getTotalMessages() {
+        return totalMessages;
+    }
+
+    public static String getPrintedMessages() {
+        return printedMessages;
+    }
     private String sendMessage;
     
    private static int totalMessages = 0;
@@ -53,7 +85,7 @@ public class Message {
         }
     }
 
-    // create hash
+    // create message hash
     public String createMessageHash() {
         String idPart = messageID.substring(0,2);
         String[] words = messageText.split(" ");
@@ -85,8 +117,11 @@ public class Message {
         
         return id;
     }
-
-    public String sentMessage() {
+    
+    public int returnTotalMessages(){
+        return totalMessages;
+    }
+    public String sentMessage(Scanner input) {
         Scanner sent = new Scanner(System.in);
         System.out.println("what would you like to do with this message?");
         System.out.println("1) send message");

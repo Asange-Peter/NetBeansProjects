@@ -6,7 +6,7 @@ package com.mycompany.mychatapp;
 
 import java.util.Scanner;
 
-/
+
 import java.util.Scanner;
 
 
