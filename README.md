@@ -33,8 +33,17 @@ This project aims to establish the foundation for a registration and login syste
 
 ## Part2-SendMessages:
 ### Message:
+- message number
+- recipient
+- messageID
+- messageHash
+- sendMessage
+
 
 ### MainApp:
+message menue
+switch cases
+
 
  
  
