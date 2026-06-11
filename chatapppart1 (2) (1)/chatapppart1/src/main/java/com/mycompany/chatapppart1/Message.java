@@ -132,4 +132,77 @@ public class Message {
     
     
 }
+import java.util.ArrayList;
+import java.util.List;
+
+private static int totalMessages = 0;
+private static String printedMessages = "";
+
+// this code arrays
+// Part 3 Arrays
+private static List<String> sentMessages = new ArrayList<>();
+private static List<String> disregardedMessages = new ArrayList<>();
+private static List<String> storedMessages = new ArrayList<>();
+private static List<String> messageHashes = new ArrayList<>();
+private static List<String> messageIDs = new ArrayList<>();
+private static List<String> recipients = new ArrayList<>();
+
+// update sentMesages
+switch(option) {
+
+    case 1:
+
+        sentMessages.add(messageText);
+        messageHashes.add(messageHash);
+        messageIDs.add(messageID);
+        recipients.add(recipient);
+
+        totalMessages++;
+
+        return "message successfully sent.";
+
+    case 2:
+
+        disregardedMessages.add(messageText);
+
+        return "message discarded.";
+
+    case 3:
+
+        storeMessage();
+
+        messageHashes.add(messageHash);
+        messageIDs.add(messageID);
+        recipients.add(recipient);
+
+        return "message successfully stored.";
+
+    default:
+
+        return "Invalid option";
+}
+// this code getters for testing 
+public static List<String> getSentMessages() {
+    return sentMessages;
+}
+
+public static List<String> getDisregardedMessages() {
+    return disregardedMessages;
+}
+
+public static List<String> getStoredMessages() {
+    return storedMessages;
+}
+
+public static List<String> getMessageHashes() {
+    return messageHashes;
+}
+
+public static List<String> getMessageIDs() {
+    return messageIDs;
+}
+
+public static List<String> getRecipients() {
+    return recipients;
+}
 

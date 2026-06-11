@@ -156,7 +156,7 @@ public class MessageTest {
     @Test
     public void testCreateMessageHash_multipleMessages_loopTest() {
 
-        Message[] messages = {message1, message2};
+        Message[] messages = {message1,message2};
 
         for (Message msg : messages) {
 
@@ -166,3 +166,148 @@ public class MessageTest {
         }
     }
 }
+
+@Test
+public void testSentMessagesArray_correctlyPopulated() {
+// thids code sent messages array
+    Message.getSentMessages().clear();
+
+    Message.getSentMessages().add("Did you get the cake?");
+    Message.getSentMessages().add("It is dinner time!");
+
+    assertTrue(
+            Message.getSentMessages().contains("Did you get the cake?")
+    );
+
+    assertTrue(
+            Message.getSentMessages().contains("It is dinner time!")
+    );
+}
+// this code longest messages
+@Test
+public void testDisplayLongestMessage_returnsCorrectMessage() {
+
+    Message.getStoredMessages().clear();
+
+    Message.getStoredMessages().add("Did you get the cake?");
+    Message.getStoredMessages().add(
+            "Where are you? You are late! I have asked you to be on time."
+    );
+    Message.getStoredMessages().add("Ok, I am leaving without you.");
+
+    Message msg = new Message(
+            1,
+            "+27834557896",
+            "test"
+    );
+
+    assertEquals(
+            "Where are you? You are late! I have asked you to be on time.",
+            msg.displayLongestMessage()
+    );
+}
+// this code search by message ID
+@Test
+public void testSearchByMessageID_returnsCorrectMessage() {
+
+    Message.getMessageIDs().clear();
+    Message.getSentMessages().clear();
+
+    Message.getMessageIDs().add("0838884567");
+    Message.getSentMessages().add("It is dinner time!");
+
+    Message msg = new Message(
+            1,
+            "+27834557896",
+            "test"
+    );
+
+    assertEquals(
+            "It is dinner time!",
+            msg.searchByMessageID("0838884567")
+    );
+}
+// This code search by recipient
+@Test
+public void testSearchByRecipient_returnsAllMatchingMessages() {
+
+    Message.getRecipients().clear();
+    Message.getSentMessages().clear();
+
+    Message.getRecipients().add("+27838884567");
+    Message.getSentMessages().add(
+            "Where are you? You are late! I have asked you to be on time."
+    );
+
+    Message.getRecipients().add("+27838884567");
+    Message.getSentMessages().add(
+            "Ok, I am leaving without you."
+    );
+
+    Message msg = new Message(
+            1,
+            "+27834557896",
+            "test"
+    );
+
+    String result = msg.searchByRecipient("+27838884567");
+
+    assertTrue(
+            result.contains(
+                    "Where are you? You are late! I have asked you to be on time."
+            )
+    );
+
+    assertTrue(
+            result.contains(
+                    "Ok, I am leaving without you."
+            )
+    );
+}
+// this code delete by hash
+@Test
+public void testDeleteByHash_removesCorrectMessage() {
+
+    Message.getMessageHashes().clear();
+    Message.getSentMessages().clear();
+
+    Message.getMessageHashes().add("AB:1:WHEREYOU");
+    Message.getSentMessages().add(
+            "Where are you? You are late! I have asked you to be on time."
+    );
+
+    Message msg = new Message(
+            1,
+            "+27834557896",
+            "test"
+    );
+
+    String result =
+            msg.deleteByHash("AB:1:WHEREYOU");
+
+    assertEquals(
+            "Message: Where are you? You are late! I have asked you to be on time. successfully deleted.",
+            result
+    );
+}
+// this code report
+@Test
+public void testDisplayReport_containsRequiredFields() {
+
+    Message.getSentMessages().clear();
+    Message.getRecipients().clear();
+    Message.getMessageHashes().clear();
+
+    Message.getSentMessages().add("Did you get the cake?");
+    Message.getRecipients().add("+27834557896");
+    Message.getMessageHashes().add("AA:1:DIDCAKE");
+
+    String report = Message.printMessages();
+
+    assertTrue(report.contains("AA:1:DIDCAKE"));
+    assertTrue(report.contains("+27834557896"));
+    assertTrue(report.contains("Did you get the cake?"));
+   
+}
+// this code
+

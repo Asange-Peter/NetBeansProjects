@@ -1,54 +1,15 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/UnitTests/JUnit5TestClass.java to edit this template
- */
-
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.AfterAll;
+import com.mycompany.mychatapp.Login;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- *
- * @author Asange
- */
-public class LoginTest {
-    
-    public LoginTest() {
-    }
-    
-    @BeforeAll
-    public static void setUpClass() {
-    }
-    
-    @AfterAll
-    public static void tearDownClass() {
-    }
-    
-    @BeforeEach
-    public void setUp() {
-    }
-    
-    @AfterEach
-    public void tearDown() {
-    }
-
-    // TODO add test methods here.
-    // The methods must be annotated with annotation @Test. For example:
-    //
-    // @Test
-    // public void hello() {}
-}
-
-class loginTest {
+class LoginTest {
 
     private Login login;
 
     @BeforeEach
     void setUp() {
-        // Initialize the Login object before each test
         login = new Login();
     }
 
@@ -117,19 +78,19 @@ class loginTest {
     @Test
     void testInvalidRegistrationUsername() {
         String result = login.registerUser("kyle", "Ch&&sec@ke99!", "+27838968976");
-        assertEquals("username is not correctly formatted ;please ensure that your username contains an underscore and is no more than five characters in length.", result);
+        assertEquals("Username is not correctly formatted; please ensure it contains an underscore and is no more than five characters in length.", result);
     }
 
     @Test
     void testInvalidRegistrationPassword() {
         String result = login.registerUser("ky_1", "password", "+27838968976");
-        assertEquals("Password is not correctly formatted;please ensure the password contains atleast eight characters, a capital letter, a number, and a special character", result);
+        assertEquals("Password is not correctly formatted; please ensure the password contains at least eight characters, a capital letter, a number, and a special character.", result);
     }
 
     @Test
     void testInvalidRegistrationPhoneNumber() {
         String result = login.registerUser("ky_1", "Ch&&sec@ke99!", "0838968976");
-        assertEquals("Cell phone number incorrectly formatted or does not contain international code", result);
+        assertEquals("Cell phone number incorrectly formatted or does not contain international code.", result);
     }
 
     // LOGIN TESTS
@@ -173,7 +134,7 @@ class loginTest {
         login.registerUser("ky_1", "Ch&&sec@ke99!", "+27838968976");
         boolean loginSuccess = login.loginUser("ky_1", "Ch&&sec@ke99!");
         String result = login.returnLoginStatus(loginSuccess);
-        assertEquals("welcomeky_1it is great to see you again.", result);
+        assertEquals("Welcome ky_1, it is great to see you again!", result);
     }
 
     @Test
@@ -181,8 +142,6 @@ class loginTest {
         login.registerUser("ky_1", "Ch&&sec@ke99!", "+27838968976");
         boolean loginFailure = login.loginUser("ky_1", "wrongpassword");
         String result = login.returnLoginStatus(loginFailure);
-        assertEquals("username or password incorrect, pease try again.", result);
+        assertEquals("Username or password incorrect. Please try again.", result);
     }
 }          
-            
-            

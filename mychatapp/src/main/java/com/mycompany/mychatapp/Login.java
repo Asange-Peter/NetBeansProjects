@@ -1,166 +1,91 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.mychatapp;
 
-/**
- *
- * @author Asange
- */
 public class Login {
     
+    // These variables show where the user details are stored
+    // once the user registers, their details will appear here.
+    String username;
+    String password;
+    String phoneNumber;
+
+    public Login(String username, String password, String phone) {
+        this.username = username;
+        this.password = password;
+        this.phoneNumber = phone;
+    }
+
+    public Login() {
+    }
+
+    // Check if username has an underscore and length is <= 5
+    public boolean checkUserName(String username) {
+        return username != null && username.contains("_") && username.length() <= 5;
+    }
+
+    // Check password complexity: at least 8 characters, 1 uppercase, 1 number, 1 special character
+    public boolean checkPasswordComplexity(String password) {
+        if (password == null) {
+            return false;
+        }
+
+        boolean hasCapital = false;
+        boolean hasNumber = false;
+        boolean hasSpecial = false;
+        
+        for (int i = 0; i < password.length(); i++) {
+            char c = password.charAt(i);
+            if (Character.isUpperCase(c)) {
+                hasCapital = true;
+            } else if (Character.isDigit(c)) {
+                hasNumber = true;
+            } else if (!Character.isLetterOrDigit(c)) {
+                hasSpecial = true;
+            }
+        }
+        
+        return password.length() >= 8 && hasCapital && hasNumber && hasSpecial;
+    }
+
+    // Check if the phone number starts with "+27" and is <= 12 characters
+    public boolean checkCellPhoneNumber(String phone) {
+        return phone != null && phone.startsWith("+27") && phone.length() <= 12;
+    }
+
+    // Register user method
+    public String registerUser(String username, String password, String phoneNumber) {
+        if (!checkUserName(username)) {
+            return "Username is not correctly formatted; please ensure it contains an underscore and is no more than five characters in length.";
+        }
+
+        if (!checkPasswordComplexity(password)) {
+            return "Password is not correctly formatted; please ensure the password contains at least eight characters, a capital letter, a number, and a special character.";
+        }
+
+        if (!checkCellPhoneNumber(phoneNumber)) {
+            return "Cell phone number incorrectly formatted or does not contain international code.";
+        }
+
+        this.username = username;
+        this.password = password;
+        this.phoneNumber = phoneNumber;
+        return "User registered successfully.";
+    }
+
+    // Login user method
+    public boolean loginUser(String username, String password) {
+        return this.username != null
+                && this.password != null
+                && this.username.equals(username)
+                && this.password.equals(password);
+    }
+
+    // Return login status message
+    public String returnLoginStatus(boolean success) {
+        if (success) {
+            return "Welcome " + username + ", it is great to see you again!";
+        } else {
+            return "Username or password incorrect. Please try again.";
+        }
+    }
 }
-class LoginTest {
 
-    private Login login;
-
-    @BeforeEach
-    void setUp() {
-        // Initialize the Login object before each test
-        login = new Login();
-    }
-
-    // USERNAME TESTS
-    @Test
-    void testValidUsername() {
-        assertTrue(login.checkUserName("ky_1"));
-    }
-
-    @Test
-    void testInvalidUsername_NoUnderscore() {
-        assertFalse(login.checkUserName("kyle"));
-    }
-
-    @Test
-    void testInvalidUsername_TooLong() {
-        // Username should not exceed 5 characters
-        assertFalse(login.checkUserName("kyleeee"));
-    }
-
-    // PASSWORD TESTS
-    @Test
-    void testValidPassword() {
-        assertTrue(login.checkPasswordComplexity("Ch&&sec@ke99!"));
-    }
-
-    @Test
-    void testInvalidPassword_NoUpperCase() {
-        assertFalse(login.checkPasswordComplexity("ch&&sec@ke99!"));
-    }
-
-    @Test
-    void testInvalidPassword_NoNumber() {
-        assertFalse(login.checkPasswordComplexity("Ch&&sec@ke!!"));
-    }
-
-    @Test
-    void testInvalidPassword_NoSpecialCharacter() {
-        assertFalse(login.checkPasswordComplexity("Chsecreke99"));
-    }
-
-
-    // PHONE NUMBER TESTS
-    @Test
-    void testValidPhoneNumber() {
-        assertTrue(login.checkCellPhoneNumber("+27838968976"));
-    }
-
-    @Test
-    void testInvalidPhoneNumber_NoInternationalCode() {
-        assertFalse(login.checkCellPhoneNumber("0838968976"));
-    }
-
-    @Test
-    void testInvalidPhoneNumber_TooLong() {
-        assertFalse(login.checkCellPhoneNumber("+27838968976123"));
-    }
-
-    // REGISTRATION TESTS
-    @Test
-    void testValidRegistration() {
-        String result = login.registerUser("ky_1", "Ch&&sec@ke99!", "+27838968976");
-        assertEquals("User registered successfully.", result);
-    }
-
-    @Test
-    void testInvalidRegistrationUsername() {
-        String result = login.registerUser("kyle", "Ch&&sec@ke99!", "+27838968976");
-        assertEquals("username is not correctly formatted ;please ensure that your username contains an underscore and is no more than five characters in length.", result);
-    }
-
-    @Test
-    void testInvalidRegistrationPassword() {
-        String result = login.registerUser("ky_1", "password", "+27838968976");
-        assertEquals("Password is not correctly formatted;please ensure the password contains atleast eight characters, a capital letter, a number, and a special character", result);
-    }
-
-    @Test
-    void testInvalidRegistrationPhoneNumber() {
-        String result = login.registerUser("ky_1", "Ch&&sec@ke99!", "0838968976");
-        assertEquals("Cell phone number incorrectly formatted or does not contain international code", result);
-    }
-
-    // LOGIN TESTS
-    @Test
-    void testValidLogin() {
-        login.registerUser("ky_1", "Ch&&sec@ke99!", "+27838968976");
-        boolean result = login.loginUser("ky_1", "Ch&&sec@ke99!");
-        assertTrue(result, "Login should be valid.");
-    }
-
-    @Test
-    void testInvalidLoginPassword() {
-        login.registerUser("ky_1", "Ch&&sec@ke99!", "+27838968976");
-        boolean result = login.loginUser("ky_1", "wrongpassword");
-        assertFalse(result, "Login should fail with the wrong password.");
-    }
-
-    @Test
-    void testInvalidLoginUsername() {
-        login.registerUser("ky_1", "Ch&&sec@ke99!", "+27838968976");
-        boolean result = login.loginUser("wronguser", "Ch&&sec@ke99!");
-        assertFalse(result, "Login should fail with the wrong username.");
-    }
-
-    @Test
-    void testLoginAfterRegistration() {
-        // Register a user
-        login.registerUser("ky_1", "Ch&&sec@ke99!", "+27838968976");
-
-        // Attempt login with correct username and password
-        boolean validLogin = login.loginUser("ky_1", "Ch&&sec@ke99!");
-        assertTrue(validLogin, "Login should succeed with correct credentials.");
-
-        // Attempt login with incorrect password
-        boolean invalidLogin = login.loginUser("ky_1", "wrongpassword");
-        assertFalse(invalidLogin, "Login should fail with incorrect password.");
-    }
-
-    @Test
-    void testLoginStatusMessageOnSuccess() {
-        login.registerUser("ky_1", "Ch&&sec@ke99!", "+27838968976");
-        boolean loginSuccess = login.loginUser("ky_1", "Ch&&sec@ke99!");
-        String result = login.returnLoginStatus(loginSuccess);
-        assertEquals("welcomeky_1it is great to see you again.", result);
-    }
-
-    @Test
-    void testLoginStatusMessageOnFailure() {
-        login.registerUser("ky_1", "Ch&&sec@ke99!", "+27838968976");
-        boolean loginFailure = login.loginUser("ky_1", "wrongpassword");
-        String result = login.returnLoginStatus(loginFailure);
-        assertEquals("username or password incorrect, pease try again.", result);
-    }
-}          
-            
-            
-            
-        
-        
-        
-    
-
-
-
-        
